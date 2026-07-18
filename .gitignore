@@ -1,0 +1,11 @@
+node_modules/
+.next/
+dist/
+.turbo/
+*.env
+!*.env.example
+.DS_Store
+Thumbs.db
+*.log
+rushvault-*.zip
+.env.local

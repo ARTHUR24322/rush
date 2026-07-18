@@ -1,0 +1,34 @@
+{
+  "name": "@rushvault/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@rushvault/crypto": "file:../../packages/crypto",
+    "@supabase/ssr": "*",
+    "@supabase/supabase-js": "*",
+    "archiver": "*",
+    "busboy": "*",
+    "next": "16.2.10",
+    "react": "*",
+    "react-dom": "*",
+    "react-hot-toast": "*",
+    "lucide-react": "*"
+  },
+  "devDependencies": {
+    "@types/archiver": "8.0.0",
+    "@types/busboy": "*",
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "@tailwindcss/postcss": "*",
+    "tailwindcss": "*",
+    "typescript": "*"
+  }
+}
