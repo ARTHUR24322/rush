@@ -1,9 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next",
-  "installCommand": "npm install --prefix apps/web",
   "env": {
     "NEXT_PUBLIC_SUPABASE_URL": "@rushvault_supabase_url",
     "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@rushvault_supabase_anon_key",
