@@ -1,6 +1,8 @@
 import { createAdminClient } from '@/lib/supabase/server';
 import { Users, ShieldCheck } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 function formatDate(dateString: string) {
   return new Intl.DateTimeFormat('fr-FR', {
     day: '2-digit',

@@ -2,6 +2,8 @@ import { createAdminClient } from '@/lib/supabase/server';
 import { FolderOpen } from 'lucide-react';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 function formatBytes(bytes: number, decimals = 2) {
   if (!+bytes) return '0 B';
   const k = 1024;

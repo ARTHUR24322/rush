@@ -2,6 +2,8 @@ import { createAdminClient } from '@/lib/supabase/server';
 import { Users, FolderOpen, HardDrive, Database, Activity, ShieldCheck, Globe } from 'lucide-react';
 import { AdminCharts } from '../AdminCharts';
 
+export const dynamic = 'force-dynamic';
+
 function formatBytes(bytes: number, decimals = 2) {
   if (!+bytes) return '0 B';
   const k = 1024;
