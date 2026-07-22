@@ -1,10 +1,4 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "nextjs",
-  "env": {
-    "NEXT_PUBLIC_SUPABASE_URL": "@rushvault_supabase_url",
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@rushvault_supabase_anon_key",
-    "SUPABASE_SERVICE_ROLE_KEY": "@rushvault_service_role_key",
-    "MASTER_ENCRYPTION_KEY": "@rushvault_encryption_key"
-  }
+  "framework": "nextjs"
 }
