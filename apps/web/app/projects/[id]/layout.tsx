@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { Vault, LogOut } from 'lucide-react';
+import LogoutButton from '@/components/LogoutButton';
 
 export default async function ProjectsLayout({
   children,
@@ -27,11 +28,7 @@ export default async function ProjectsLayout({
           </div>
           <div className="flex items-center gap-3">
             <span className="text-xs text-zinc-500 hidden sm:block truncate max-w-32">{user.email}</span>
-            <form action="/api/auth/signout" method="post">
-              <button className="btn-ghost p-2" title="Déconnexion">
-                <LogOut className="w-4 h-4" />
-              </button>
-            </form>
+            <LogoutButton />
           </div>
         </div>
       </header>

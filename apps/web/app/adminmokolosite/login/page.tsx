@@ -113,7 +113,7 @@ export default function AdminLoginPage() {
             <div className="bg-zinc-950 border border-zinc-800 rounded-lg p-4 mb-6">
               <div className="flex items-center gap-3 text-sm text-zinc-300">
                 <Mail className="w-4 h-4 text-zinc-500" />
-                Un code à 6 chiffres a été envoyé à <br/><span className="font-mono text-white">a************v@gmail.com</span>
+                Un code de sécurité a été envoyé à <br/><span className="font-mono text-white">a************v@gmail.com</span>
               </div>
             </div>
 
@@ -124,17 +124,17 @@ export default function AdminLoginPage() {
               <input
                 type="text"
                 required
-                maxLength={6}
+                maxLength={8}
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ''))}
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-3 text-center text-2xl tracking-[0.5em] font-mono text-white focus:outline-none focus:border-red-500 transition-colors"
+                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-3 text-center text-2xl tracking-[0.2em] font-mono text-white focus:outline-none focus:border-red-500 transition-colors"
                 placeholder="000000"
               />
             </div>
             
             <button
               type="submit"
-              disabled={loading || otp.length !== 6}
+              disabled={loading || otp.length < 6}
               className="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-2.5 rounded-lg transition-colors disabled:opacity-50 mt-4"
             >
               {loading ? "Validation..." : "Accéder au Dashboard"}

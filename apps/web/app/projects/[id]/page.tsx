@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 import {
@@ -44,6 +44,11 @@ export default function ProjectPage() {
   const [loading, setLoading] = useState(true);
   const [downloading, setDownloading] = useState<string | null>(null);
 
+  const router = useRouter();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteConfirmName, setDeleteConfirmName] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+
   useEffect(() => {
     const load = async () => {
       try {
@@ -59,6 +64,21 @@ export default function ProjectPage() {
     };
     void load();
   }, [projectId]);
+
+  const handleDeleteProject = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (deleteConfirmName !== project?.name) return;
+    setIsDeleting(true);
+    try {
+      const res = await fetch(`/api/projects/${projectId}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error();
+      toast.success('Projet supprimé avec succès');
+      router.push('/dashboard');
+    } catch {
+      toast.error('Erreur lors de la suppression du projet');
+      setIsDeleting(false);
+    }
+  };
 
   const handleRollback = async (version: Version) => {
     setDownloading(version.id);
@@ -129,10 +149,15 @@ export default function ProjectPage() {
             </span>
           </p>
         </div>
-        <Link href={`/projects/${projectId}/env`} className="btn-secondary gap-2">
-          <Shield className="w-4 h-4 text-green-400" />
-          Coffre-fort .env
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link href={`/projects/${projectId}/env`} className="btn-secondary gap-2">
+            <Shield className="w-4 h-4 text-green-400" />
+            Coffre-fort .env
+          </Link>
+          <button onClick={() => setShowDeleteModal(true)} className="btn-danger gap-2">
+            Supprimer
+          </button>
+        </div>
       </div>
 
       {/* Tabs */}
@@ -231,6 +256,50 @@ export default function ProjectPage() {
           Le fichier <code className="text-rush-300 font-mono">.env</code> est automatiquement déchiffré et téléchargé séparément.
         </p>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-md w-full p-6 shadow-2xl animate-fade-in">
+            <h2 className="text-xl font-bold text-red-400 mb-2">Supprimer le projet</h2>
+            <p className="text-sm text-zinc-400 mb-6">
+              Cette action est irréversible. Tous les snapshots et variables d'environnement seront définitivement supprimés.
+            </p>
+            
+            <form onSubmit={handleDeleteProject}>
+              <label className="block text-sm font-medium text-zinc-300 mb-2">
+                Pour confirmer, tapez <strong>{project?.name}</strong> ci-dessous :
+              </label>
+              <input
+                type="text"
+                value={deleteConfirmName}
+                onChange={(e) => setDeleteConfirmName(e.target.value)}
+                className="input w-full mb-6"
+                placeholder={project?.name}
+                required
+              />
+              
+              <div className="flex gap-3 justify-end">
+                <button
+                  type="button"
+                  onClick={() => setShowDeleteModal(false)}
+                  className="btn-ghost"
+                  disabled={isDeleting}
+                >
+                  Annuler
+                </button>
+                <button
+                  type="submit"
+                  disabled={deleteConfirmName !== project?.name || isDeleting}
+                  className="btn-danger"
+                >
+                  {isDeleting ? 'Suppression...' : 'Oui, supprimer ce projet'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

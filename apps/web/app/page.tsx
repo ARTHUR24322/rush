@@ -46,16 +46,18 @@ export default function HomePage() {
             Le disque dur des développeurs
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-extrabold text-zinc-100 leading-tight mb-6 text-balance">
-            Votre code est en sécurité.
-            <br />
-            <span className="gradient-text">Vous pouvez enfin souffler.</span>
+          <div className="flex justify-center mb-6">
+            <div className="w-16 h-16 rounded-2xl bg-rush-gradient flex items-center justify-center shadow-glow animate-pulse">
+              <Vault className="w-8 h-8 text-white" />
+            </div>
+          </div>
+
+          <h1 className="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-zinc-100 to-zinc-400 leading-tight mb-4 text-balance tracking-tight">
+            Votre code est en sécurité. <span className="gradient-text animate-pulse">Vous pouvez enfin souffler.</span>
           </h1>
 
-          <p className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto mb-12 text-balance">
-            Un seul clic pour capturer votre projet entier. Un coffre-fort chiffré pour vos secrets{' '}
-            <code className="text-rush-300 font-mono text-sm bg-rush-500/10 px-1.5 py-0.5 rounded">.env</code>.
-            La puissance de la sauvegarde, la simplicité du ZIP.
+          <p className="text-lg text-zinc-400 max-w-3xl mx-auto mb-10 text-balance leading-relaxed font-medium">
+            Un seul clic pour capturer votre projet et chiffrer vos secrets <code className="text-rush-300 font-mono text-sm bg-rush-500/10 px-1.5 py-0.5 rounded border border-rush-500/20 shadow-inner">.env</code>. La puissance de la sauvegarde, la simplicité du ZIP.
           </p>
 
           {/* Login Forms */}

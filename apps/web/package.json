@@ -15,19 +15,20 @@
     "@supabase/supabase-js": "*",
     "archiver": "*",
     "busboy": "*",
+    "lucide-react": "*",
     "next": "16.2.10",
     "react": "*",
     "react-dom": "*",
     "react-hot-toast": "*",
-    "lucide-react": "*"
+    "recharts": "^3.10.0"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "*",
     "@types/archiver": "8.0.0",
     "@types/busboy": "*",
     "@types/node": "*",
     "@types/react": "*",
     "@types/react-dom": "*",
-    "@tailwindcss/postcss": "*",
     "tailwindcss": "*",
     "typescript": "*"
   }

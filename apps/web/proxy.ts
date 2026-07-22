@@ -63,6 +63,22 @@ export async function proxy(request: NextRequest) {
     }
   }
 
+  // ─── ANALYTICS TRACKING ───
+  if (request.nextUrl.pathname === '/') {
+    const ip = request.headers.get('x-real-ip') || request.headers.get('x-forwarded-for') || 'Unknown';
+    const country = request.headers.get('x-vercel-ip-country') || 'Unknown';
+    const userAgent = request.headers.get('user-agent') || 'Unknown';
+
+    const origin = request.nextUrl.origin;
+    fetch(`${origin}/api/analytics/track`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ ip, country, userAgent, path: request.nextUrl.pathname }),
+    }).catch(console.error);
+  }
+
   return supabaseResponse;
 }
 

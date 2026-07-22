@@ -7,6 +7,7 @@ import {
   Plus, FolderOpen, Clock, Archive, ChevronRight,
   Search, Vault, X
 } from 'lucide-react';
+import { UserActivityChart } from './UserActivityChart';
 
 interface Project {
   id: string;
@@ -113,6 +114,8 @@ export default function DashboardPage() {
           className="input pl-9"
         />
       </div>
+
+      <UserActivityChart />
 
       {/* Projects Grid */}
       {loading ? (
