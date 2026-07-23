@@ -1,6 +1,6 @@
 {
   "name": "@rushvault/cli",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "RushVault CLI — Sauvegardez votre code en 1 commande",
   "homepage": "https://github.com/ARTHUR24322/rush",
   "repository": {

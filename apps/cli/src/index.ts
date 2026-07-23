@@ -60,7 +60,7 @@ if (isSaveAlias) {
   program
     .command('login')
     .description('Connexion OAuth (GitHub / Google) via le navigateur')
-    .option('--api-url <url>', "URL de l'API RushVault", 'https://rushvault.app')
+    .option('--api-url <url>', "URL de l'API RushVault", process.env.RUSHVAULT_API_URL || 'https://rush-web-beryl.vercel.app')
     .action(async (options: { apiUrl?: string }) => {
       await loginCommand(options);
     });
