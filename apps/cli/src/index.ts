@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 /**
- * RushVault CLI — rush / rush-save
+ * RushVault CLI — rushvault / rush-save
  *
  * Usage:
  *   rush-save "Mon message"       Sauvegarde le projet courant (snapshot)
- *   rush login                    Connexion OAuth (GitHub / Google)
- *   rush logout                   Déconnexion
- *   rush whoami                   Affiche l'utilisateur connecté
- *   rush init [projectId]         Lie le dossier courant à un projet
- *   rush versions                 Historique des versions
- *   rush rollback v3              Rollback vers une version spécifique
+ *   rushvault login                    Connexion OAuth (GitHub / Google)
+ *   rushvault logout                   Déconnexion
+ *   rushvault whoami                   Affiche l'utilisateur connecté
+ *   rushvault init [projectId]         Lie le dossier courant à un projet
+ *   rushvault versions                 Historique des versions
+ *   rushvault rollback v3              Rollback vers une version spécifique
  */
 
 import { Command } from 'commander';
@@ -26,7 +26,7 @@ const program = new Command();
 // ─── Branding ─────────────────────────────────────────────────────────────────
 
 program
-  .name('rush')
+  .name('rushvault')
   .description(
     chalk.bold.hex('#8b5cf6')('⚡ RushVault') +
     chalk.gray(' — Le disque dur des développeurs\n') +

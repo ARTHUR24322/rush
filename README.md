@@ -62,9 +62,9 @@ npm run dev       # → http://localhost:3000
 ```bash
 cd apps/cli
 npm run build
-npm link          # installe "rush" et "rush-save" globalement
+npm install -g @rushvault/cli # installe "rushvault" et "rush-save" globalement
 
-rush login        # Connexion OAuth (GitHub / Google)
+rushvault login        # Connexion OAuth (GitHub / Google)
 ```
 
 ---
@@ -75,7 +75,7 @@ rush login        # Connexion OAuth (GitHub / Google)
 rushvault/
 ├── apps/
 │   ├── web/          # Next.js 14 App Router (UI + API Routes serverless)
-│   └── cli/          # CLI Node.js — rush / rush-save
+│   └── cli/          # CLI Node.js — rushvault / rush-save
 ├── packages/
 │   └── crypto/       # Module AES-256-GCM partagé (zero dépendance externe)
 └── supabase/
@@ -88,22 +88,22 @@ rushvault/
 
 ```bash
 # Lier un projet à votre dossier
-rush init <project-id>
+rushvault init <project-id>
 
 # Sauvegarder (snapshot)
 rush-save "Ajout authentification JWT"
 # ou
-rush save "Ajout authentification JWT"
+rushvault save "Ajout authentification JWT"
 
 # Voir l'historique
-rush versions
+rushvault versions
 
 # Rollback vers une version
-rush rollback v3
+rushvault rollback v3
 
 # Compte
-rush whoami
-rush logout
+rushvault whoami
+rushvault logout
 ```
 
 ---

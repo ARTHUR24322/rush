@@ -19,7 +19,7 @@ export async function rollbackCommand(versionTarget: string) {
   console.log('');
 
   if (!isAuthenticated()) {
-    console.log(chalk.red('❌ Non connecté. Lancez : rush login'));
+    console.log(chalk.red('❌ Non connecté. Lancez : rushvault login'));
     process.exit(1);
   }
 

@@ -29,7 +29,7 @@ export async function saveCommand(message: string) {
 
   // ── Auth check ──────────────────────────────────────────────────────────────
   if (!isAuthenticated()) {
-    console.log(chalk.red('❌ Non connecté. Lancez : rush login'));
+    console.log(chalk.red('❌ Non connecté. Lancez : rushvault login'));
     process.exit(1);
   }
 

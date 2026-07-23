@@ -12,7 +12,7 @@ import {
 const CLI_PORT = 9876;
 
 /**
- * `rush login` — Authentification OAuth via le navigateur.
+ * `rushvault login` — Authentification OAuth via le navigateur.
  *
  * Flux :
  * 1. Lance un serveur HTTP local sur :9876
@@ -150,7 +150,7 @@ export function whoamiCommand() {
   const config = readGlobalConfig();
   console.log('');
   if (!config.accessToken || !config.email) {
-    console.log(chalk.yellow('⚠️  Non connecté — lancez : rush login'));
+    console.log(chalk.yellow('⚠️  Non connecté — lancez : rushvault login'));
   } else {
     console.log(chalk.bold.white('👤 Utilisateur connecté'));
     console.log(chalk.gray(`   Email  : ${chalk.white(config.email)}`));

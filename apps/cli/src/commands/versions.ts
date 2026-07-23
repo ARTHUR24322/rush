@@ -16,7 +16,7 @@ export async function versionsCommand() {
   console.log('');
 
   if (!isAuthenticated()) {
-    console.log(chalk.red('❌ Non connecté. Lancez : rush login'));
+    console.log(chalk.red('❌ Non connecté. Lancez : rushvault login'));
     process.exit(1);
   }
 
@@ -86,7 +86,7 @@ export async function initCommand(projectId?: string) {
   console.log('');
 
   if (!isAuthenticated()) {
-    console.log(chalk.red('❌ Non connecté. Lancez : rush login'));
+    console.log(chalk.red('❌ Non connecté. Lancez : rushvault login'));
     process.exit(1);
   }
 

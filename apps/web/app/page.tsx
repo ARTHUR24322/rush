@@ -341,7 +341,7 @@ export default function HomePage() {
                 <h3 className="font-semibold text-zinc-100">Connexion à votre compte</h3>
               </div>
               <div className="code-block text-sm space-y-1">
-                <p><span className="text-zinc-500">$</span> <span className="text-rush-300">rush login</span></p>
+                <p><span className="text-zinc-500">$</span> <span className="text-rush-300">rushvault login</span></p>
                 <p className="text-zinc-500 pl-2">→ Ouverture du navigateur...</p>
                 <p className="text-green-400 pl-2">✅ Connecté en tant que vous@email.com</p>
               </div>
