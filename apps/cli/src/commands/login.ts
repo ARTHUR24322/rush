@@ -37,10 +37,14 @@ export async function loginCommand(options: { apiUrl?: string }) {
   // Ouverture du navigateur selon l'OS
   const openCmd =
     process.platform === 'win32'
-      ? `start "${oauthUrl}"`
+      ? `start "" "${oauthUrl}"`
       : process.platform === 'darwin'
       ? `open "${oauthUrl}"`
       : `xdg-open "${oauthUrl}"`;
+
+  console.log(chalk.gray(`Si votre navigateur ne s'ouvre pas, visitez ce lien :`));
+  console.log(chalk.cyan.underline(oauthUrl));
+  console.log('');
 
   exec(openCmd);
 
