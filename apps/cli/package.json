@@ -1,18 +1,32 @@
 {
-  "name": "rushvault-cli",
-  "version": "0.1.0",
+  "name": "@rushvault/cli",
+  "version": "0.1.4",
   "description": "RushVault CLI — Sauvegardez votre code en 1 commande",
+  "homepage": "https://github.com/ARTHUR24322/rush",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ARTHUR24322/rush.git"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "bin": {
-    "rush-save": "./dist/index.js",
-    "rush": "./dist/index.js"
+    "rush-save": "bin/rush-save",
+    "rushvault": "bin/rushvault"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "esbuild src/index.ts --bundle --platform=node --format=cjs --outfile=dist/index.js --external:archiver --external:chalk --external:commander --external:form-data --external:node-fetch --external:ora",
     "dev": "tsc --watch",
+    "prepublishOnly": "pnpm build",
     "type-check": "tsc --noEmit"
   },
+  "files": [
+    "bin/",
+    "dist/index.js",
+    "README.md"
+  ],
   "dependencies": {
-    "@rushvault/crypto": "workspace:*",
     "archiver": "^7.0.1",
     "chalk": "^5.3.0",
     "commander": "^12.1.0",
@@ -21,8 +35,10 @@
     "ora": "^8.1.0"
   },
   "devDependencies": {
+    "@rushvault/crypto": "workspace:*",
     "@types/archiver": "^6.0.2",
     "@types/node": "^20.14.10",
+    "esbuild": "^0.21.0",
     "typescript": "^5.5.3"
   },
   "engines": {

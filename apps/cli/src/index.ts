@@ -18,6 +18,8 @@ import { loginCommand, logoutCommand, whoamiCommand } from './commands/login.js'
 import { saveCommand } from './commands/save.js';
 import { versionsCommand, initCommand } from './commands/versions.js';
 import { rollbackCommand } from './commands/rollback.js';
+import pkg from '../package.json';
+
 
 const program = new Command();
 
@@ -30,7 +32,7 @@ program
     chalk.gray(' — Le disque dur des développeurs\n') +
     chalk.gray('   Snapshots de code en 1 clic · Coffre-fort .env chiffré'),
   )
-  .version('0.1.0', '-v, --version', 'Afficher la version');
+  .version(pkg.version, '-v, --version', 'Afficher la version');
 
 // ─── rush-save (raccourci) ────────────────────────────────────────────────────
 
