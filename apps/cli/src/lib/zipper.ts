@@ -69,6 +69,11 @@ export function getFileSize(filePath: string): string {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
 }
 
+/** Retourne la taille en octets d'un fichier */
+export function getFileSizeBytes(filePath: string): number {
+  return fs.statSync(filePath).size;
+}
+
 /** Supprime un fichier temporaire */
 export function cleanupTempFile(filePath: string): void {
   try {
