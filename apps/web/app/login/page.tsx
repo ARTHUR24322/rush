@@ -3,7 +3,7 @@
 import { Suspense, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { Shield, Github, Mail, Loader2, Key } from 'lucide-react';
+import { Shield, GitBranch, Mail, Loader2, Key } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 
 function LoginContent() {
@@ -65,7 +65,7 @@ function LoginContent() {
             disabled={loading}
             className="w-full flex items-center justify-center gap-3 bg-zinc-800 hover:bg-zinc-700 text-white p-3 rounded-xl transition-all border border-zinc-700"
           >
-            {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Github className="w-5 h-5" />}
+            {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <GitBranch className="w-5 h-5" />}
             Continuer avec GitHub
           </button>
           
