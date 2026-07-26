@@ -1,5 +1,5 @@
 import http from 'http';
-import { exec } from 'child_process';
+import { spawn } from 'child_process';
 import chalk from 'chalk';
 import ora from 'ora';
 import {
@@ -34,19 +34,20 @@ export async function loginCommand(options: { apiUrl?: string }) {
   // La page web /login lance Supabase OAuth avec la bonne redirect_uri
   const oauthUrl = `${apiUrl}/login?cli=true&port=${CLI_PORT}`;
 
-  // Ouverture du navigateur selon l'OS
-  const openCmd =
+  // Ouverture du navigateur — utilise spawn() avec args séparés (pas de shell)
+  // Protection contre l'injection OS si apiUrl était malveillant
+  const openArgs: [string, string[]] =
     process.platform === 'win32'
-      ? `start "" "${oauthUrl}"`
+      ? ['cmd', ['/c', 'start', '', oauthUrl]]
       : process.platform === 'darwin'
-      ? `open "${oauthUrl}"`
-      : `xdg-open "${oauthUrl}"`;
+      ? ['open', [oauthUrl]]
+      : ['xdg-open', [oauthUrl]];
 
   console.log(chalk.gray(`Si votre navigateur ne s'ouvre pas, visitez ce lien :`));
   console.log(chalk.cyan.underline(oauthUrl));
   console.log('');
 
-  exec(openCmd);
+  spawn(openArgs[0], openArgs[1], { detached: true, stdio: 'ignore' }).unref();
 
   // Serveur HTTP local pour capturer le callback
   await new Promise<void>((resolve, reject) => {
