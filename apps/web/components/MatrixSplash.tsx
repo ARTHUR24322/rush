@@ -49,7 +49,7 @@ export default function MatrixSplash() {
       for (let i = 0; i < drops.length; i++) {
         // Random binary char
         const text = chars.charAt(Math.floor(Math.random() * chars.length));
-        
+
         // Draw the character
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
@@ -89,9 +89,8 @@ export default function MatrixSplash() {
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] bg-black transition-opacity duration-500 pointer-events-none ${
-        fading ? 'opacity-0' : 'opacity-100'
-      }`}
+      className={`fixed inset-0 z-[9999] bg-black transition-opacity duration-500 pointer-events-none ${fading ? 'opacity-0' : 'opacity-100'
+        }`}
     >
       <canvas ref={canvasRef} className="block w-full h-full" />
     </div>
