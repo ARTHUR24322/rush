@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient, createAdminClient, getAuthenticatedUser } from '@/lib/supabase/server';
+import { createAdminClient, getAuthenticatedUser } from '@/lib/supabase/server';
 import { deriveServerKey, decryptEnvFile } from '@rushvault/crypto';
 
 /**
@@ -14,8 +14,8 @@ export async function GET(
 ) {
   try {
     const { id: projectId, versionId } = await params;
-    const supabase = await createClient();
-    const adminClient = createAdminClient();
+    const supabase = createAdminClient();
+    const adminClient = supabase;
 
     // ── Auth ──────────────────────────────────────────────────────────────────
     const { data: { user }, error: authError } = await getAuthenticatedUser(request);
