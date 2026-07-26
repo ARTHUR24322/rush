@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient, getAuthenticatedUser } from '@/lib/supabase/server';
+import { createAdminClient, getAuthenticatedUser } from '@/lib/supabase/server';
 
 /**
  * GET /api/projects — Liste les projets de l'utilisateur connecté
@@ -8,7 +8,7 @@ import { createClient, getAuthenticatedUser } from '@/lib/supabase/server';
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data: { user }, error: authError } = await getAuthenticatedUser(request);
 
     if (authError || !user) {
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data: { user }, error: authError } = await getAuthenticatedUser(request);
 
     if (authError || !user) {

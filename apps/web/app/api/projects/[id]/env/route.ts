@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient, getAuthenticatedUser } from '@/lib/supabase/server';
+import { createAdminClient, getAuthenticatedUser } from '@/lib/supabase/server';
 import { deriveServerKey, encrypt, decrypt } from '@rushvault/crypto';
 
 /**
@@ -13,7 +13,7 @@ export async function GET(
 ) {
   try {
     const { id: projectId } = await params;
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     const { data: { user }, error: authError } = await getAuthenticatedUser(request);
     if (authError || !user) {
@@ -125,8 +125,8 @@ export async function DELETE(
       return NextResponse.json({ error: 'keyName query param required' }, { status: 400 });
     }
 
-    const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const supabase = createAdminClient();
+    const { data: { user }, error: authError } = await getAuthenticatedUser(request);
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

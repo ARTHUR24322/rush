@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient, getAuthenticatedUser } from '@/lib/supabase/server';
+import { createAdminClient, getAuthenticatedUser } from '@/lib/supabase/server';
 
 export async function DELETE(
   request: NextRequest,
@@ -7,7 +7,7 @@ export async function DELETE(
 ) {
   try {
     const { id: projectId } = await params;
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     const { data: { user }, error: authError } = await getAuthenticatedUser(request);
     if (authError || !user) {

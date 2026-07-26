@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient, getAuthenticatedUser } from '@/lib/supabase/server';
+import { createAdminClient, getAuthenticatedUser } from '@/lib/supabase/server';
 
 /**
  * GET /api/projects/[id]/versions — Historique des versions d'un projet
@@ -10,7 +10,7 @@ export async function GET(
 ) {
   try {
     const { id: projectId } = await params;
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     const { data: { user }, error: authError } = await getAuthenticatedUser(request);
     if (authError || !user) {
