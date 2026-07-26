@@ -51,11 +51,17 @@ export async function proxy(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith('/adminmokolosite')) {
     // Empêche l'indexation par les moteurs de recherche
     supabaseResponse.headers.set('X-Robots-Tag', 'noindex, nofollow');
+
+    // No-cache : empêche le navigateur de mettre les pages admin en cache
+    // → le bouton "retour arrière" après déconnexion envoie une vraie requête au serveur
+    supabaseResponse.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    supabaseResponse.headers.set('Pragma', 'no-cache');
+    supabaseResponse.headers.set('Expires', '0');
     
     // Si ce n'est pas la page de login, on vérifie la présence du token
     if (!request.nextUrl.pathname.startsWith('/adminmokolosite/login')) {
       const adminToken = request.cookies.get('rushvault_admin_token');
-      if (!adminToken) {
+      if (!adminToken || adminToken.value !== 'true') {
         const url = request.nextUrl.clone();
         url.pathname = '/adminmokolosite/login';
         return NextResponse.redirect(url);
