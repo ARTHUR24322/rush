@@ -47,3 +47,20 @@ export function createAdminClient() {
     },
   );
 }
+
+/**
+ * Récupère l'utilisateur connecté via les cookies, ou via le header Authorization si fourni (utile pour le CLI).
+ */
+export async function getAuthenticatedUser(request?: Request) {
+  const supabase = await createClient();
+  
+  if (request) {
+    const authHeader = request.headers.get('Authorization');
+    const token = authHeader?.startsWith('Bearer ') ? authHeader.substring(7) : null;
+    if (token) {
+      return supabase.auth.getUser(token);
+    }
+  }
+  
+  return supabase.auth.getUser();
+}

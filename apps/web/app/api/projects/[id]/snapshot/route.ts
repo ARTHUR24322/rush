@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient, createAdminClient } from '@/lib/supabase/server';
+import { createClient, createAdminClient, getAuthenticatedUser } from '@/lib/supabase/server';
 import { deriveServerKey, encryptEnvFile } from '@rushvault/crypto';
 
 /**
@@ -22,7 +22,7 @@ export async function POST(
     const adminClient = createAdminClient();
 
     // ── Auth ──────────────────────────────────────────────────────────────────
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const { data: { user }, error: authError } = await getAuthenticatedUser(request);
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
