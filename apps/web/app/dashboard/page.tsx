@@ -5,7 +5,7 @@ import Link from 'next/link';
 import toast from 'react-hot-toast';
 import {
   Plus, FolderOpen, Clock, Archive, ChevronRight,
-  Search, Vault, X
+  Search, Vault, X, Terminal, Zap
 } from 'lucide-react';
 import { UserActivityChart } from './UserActivityChart';
 
@@ -180,14 +180,59 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* CLI hint */}
-      <div className="mt-12 p-4 rounded-xl border border-rush-500/20 bg-rush-500/5 flex items-center gap-4">
-        <div className="w-8 h-8 rounded-lg bg-rush-500/20 flex items-center justify-center flex-shrink-0">
-          <Vault className="w-4 h-4 text-green-500" />
+      {/* CLI Guide */}
+      <div className="mt-12 p-6 rounded-2xl border border-rush-500/20 bg-zinc-900/50 backdrop-blur-sm">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 rounded-xl bg-rush-gradient/20 border border-rush-500/30 flex items-center justify-center shadow-lg shadow-rush-500/10">
+            <Terminal className="w-5 h-5 text-rush-300" />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-zinc-100">Guide d'utilisation du CLI</h2>
+            <p className="text-sm text-zinc-400">Sauvegardez votre code directement depuis votre terminal</p>
+          </div>
         </div>
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-zinc-300">Sauvegarder depuis le terminal</p>
-          <code className="text-xs text-rush-300 font-mono">rush-save &quot;Mon message&quot;</code>
+
+        <div className="grid md:grid-cols-4 gap-4">
+          {/* Step 1 */}
+          <div className="p-4 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-rush-500/30 transition-colors">
+            <div className="text-rush-400 text-sm font-bold mb-2">1. Installation</div>
+            <p className="text-xs text-zinc-400 mb-4 h-8">Installez le CLI globalement sur votre machine.</p>
+            <code className="block p-2 bg-zinc-900 rounded-lg text-xs text-rush-300 font-mono border border-zinc-800/80 truncate" title="npm i -g @rushvault/cli">
+              npm i -g @rushvault/cli
+            </code>
+          </div>
+          
+          {/* Step 2 */}
+          <div className="p-4 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-rush-500/30 transition-colors">
+            <div className="text-rush-400 text-sm font-bold mb-2">2. Connexion</div>
+            <p className="text-xs text-zinc-400 mb-4 h-8">Connectez-vous à votre compte RushVault.</p>
+            <code className="block p-2 bg-zinc-900 rounded-lg text-xs text-rush-300 font-mono border border-zinc-800/80 truncate">
+              rushvault login
+            </code>
+          </div>
+          
+          {/* Step 3 */}
+          <div className="p-4 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-rush-500/30 transition-colors">
+            <div className="text-rush-400 text-sm font-bold mb-2">3. Initialisation</div>
+            <p className="text-xs text-zinc-400 mb-4 h-8">Liez votre dossier à un de vos projets.</p>
+            <code className="block p-2 bg-zinc-900 rounded-lg text-xs text-rush-300 font-mono border border-zinc-800/80 truncate">
+              rushvault init
+            </code>
+          </div>
+
+          {/* Step 4 */}
+          <div className="p-4 rounded-xl bg-zinc-950/50 border border-zinc-800/80 relative overflow-hidden hover:border-rush-500/50 transition-colors">
+            <div className="absolute inset-0 bg-rush-500/5 pointer-events-none" />
+            <div className="relative">
+              <div className="text-rush-400 text-sm font-bold mb-2 flex items-center gap-1.5">
+                4. Sauvegarde <Zap className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500/20" />
+              </div>
+              <p className="text-xs text-zinc-400 mb-4 h-8">Créez un snapshot en un clic.</p>
+              <code className="block p-2 bg-zinc-900 rounded-lg text-xs text-white font-mono border border-rush-500/30 truncate shadow-[0_0_10px_rgba(139,92,246,0.1)]">
+                rush-save "message"
+              </code>
+            </div>
+          </div>
         </div>
       </div>
 
