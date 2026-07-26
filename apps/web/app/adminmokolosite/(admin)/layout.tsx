@@ -1,8 +1,9 @@
-import { Shield, LayoutDashboard, Users, FolderOpen, LogOut } from 'lucide-react';
+import { Shield, LayoutDashboard, Users, FolderOpen } from 'lucide-react';
 import Link from 'next/link';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { clearAdminSession } from '../actions';
+import { AdminGuard } from '../AdminGuard';
 
 // Force dynamic rendering — ensures every request checks the cookie (no caching)
 export const dynamic = 'force-dynamic';
@@ -13,7 +14,6 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   // ── Auth guard ────────────────────────────────────────────────────────────
-  // Vérifie le cookie à chaque rendu — redirige si déconnecté
   const cookieStore = await cookies();
   const adminToken = cookieStore.get('rushvault_admin_token');
   if (!adminToken || adminToken.value !== 'true') {
@@ -56,12 +56,8 @@ export default async function AdminLayout({
               <p className="text-xs text-zinc-500 truncate">Superviseur</p>
             </div>
           </div>
-          <form action={clearAdminSession} className="mt-2">
-            <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors">
-              <LogOut className="w-4 h-4" />
-              Déconnexion
-            </button>
-          </form>
+          {/* AdminGuard gère le dialog de confirmation + détection bfcache */}
+          <AdminGuard onLogout={clearAdminSession} />
         </div>
       </aside>
 

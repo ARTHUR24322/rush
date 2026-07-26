@@ -2,6 +2,7 @@
 
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { createClient } from '@/lib/supabase/server';
 
 export async function verifyMasterPassword(password: string) {
   if (password === 'ArthurAdmin243@@') {
@@ -24,7 +25,17 @@ export async function setAdminSession() {
 }
 
 export async function clearAdminSession() {
+  // Supprime le cookie admin
   const cookieStore = await cookies();
   cookieStore.delete('rushvault_admin_token');
+
+  // Déconnexion complète de Supabase (session utilisateur)
+  try {
+    const supabase = await createClient();
+    await supabase.auth.signOut();
+  } catch {
+    // Ignorer les erreurs de déconnexion Supabase
+  }
+
   redirect('/adminmokolosite/login');
 }
