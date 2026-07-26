@@ -1,12 +1,24 @@
 import { Shield, LayoutDashboard, Users, FolderOpen, LogOut } from 'lucide-react';
 import Link from 'next/link';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { clearAdminSession } from '../actions';
+
+// Force dynamic rendering — ensures every request checks the cookie (no caching)
+export const dynamic = 'force-dynamic';
 
 export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // ── Auth guard ────────────────────────────────────────────────────────────
+  // Vérifie le cookie à chaque rendu — redirige si déconnecté
+  const cookieStore = await cookies();
+  const adminToken = cookieStore.get('rushvault_admin_token');
+  if (!adminToken || adminToken.value !== 'true') {
+    redirect('/adminmokolosite/login');
+  }
 
   return (
     <div className="min-h-screen bg-black text-zinc-300 font-mono flex flex-col md:flex-row">
@@ -22,7 +34,7 @@ export default async function AdminLayout({
         <nav className="flex-1 px-4 pb-4 space-y-1 overflow-y-auto flex flex-row md:flex-col overflow-x-auto md:overflow-x-visible">
           <Link href="/adminmokolosite" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-zinc-400 hover:text-white hover:bg-zinc-900 transition-colors whitespace-nowrap">
             <LayoutDashboard className="w-4 h-4" />
-            Vue d'ensemble
+            Vue d&apos;ensemble
           </Link>
           <Link href="/adminmokolosite/users" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-zinc-400 hover:text-white hover:bg-zinc-900 transition-colors whitespace-nowrap">
             <Users className="w-4 h-4" />
