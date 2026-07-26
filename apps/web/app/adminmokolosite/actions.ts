@@ -15,7 +15,7 @@ export async function setAdminSession() {
   cookieStore.set('rushvault_admin_token', 'true', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    sameSite: 'strict', // 'strict' = protection CSRF maximale (aucune requête cross-site)
     path: '/adminmokolosite',
     maxAge: 60 * 60 * 24, // 24 hours
   });
