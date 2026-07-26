@@ -5,7 +5,7 @@ import Link from 'next/link';
 import toast from 'react-hot-toast';
 import {
   Plus, FolderOpen, Clock, Archive, ChevronRight,
-  Search, Vault, X, Terminal, Zap
+  Search, Vault, X, Terminal, Zap, Copy
 } from 'lucide-react';
 import { UserActivityChart } from './UserActivityChart';
 
@@ -158,7 +158,20 @@ export default function DashboardPage() {
                     <ChevronRight className="w-4 h-4 text-zinc-600 group-hover:text-zinc-400 transition-colors" />
                   </div>
 
-                  <h3 className="font-semibold text-zinc-100 mb-1 truncate">{project.name}</h3>
+                  <div className="flex items-center gap-2 mb-3">
+                    <h3 className="font-semibold text-zinc-100 truncate">{project.name}</h3>
+                    <button 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigator.clipboard.writeText(project.id);
+                        toast.success('ID copié !');
+                      }}
+                      className="p-1 rounded-md hover:bg-zinc-800 text-zinc-500 hover:text-zinc-300 transition-colors flex-shrink-0"
+                      title="Copier l'ID du projet"
+                    >
+                      <Copy className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                   {project.description && (
                     <p className="text-xs text-zinc-500 mb-3 line-clamp-2">{project.description}</p>
                   )}
@@ -214,9 +227,9 @@ export default function DashboardPage() {
           {/* Step 3 */}
           <div className="p-4 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-rush-500/30 transition-colors">
             <div className="text-rush-400 text-sm font-bold mb-2">3. Initialisation</div>
-            <p className="text-xs text-zinc-400 mb-4 h-8">Liez votre dossier à un de vos projets.</p>
-            <code className="block p-2 bg-zinc-900 rounded-lg text-xs text-rush-300 font-mono border border-zinc-800/80 truncate">
-              rushvault init
+            <p className="text-[11px] leading-tight text-zinc-400 mb-4 h-8">Liez votre dossier au projet distant (crée le fichier rushvault.json).</p>
+            <code className="block p-2 bg-zinc-900 rounded-lg text-xs text-rush-300 font-mono border border-zinc-800/80 truncate" title="rushvault init <project-id>">
+              rushvault init &lt;id&gt;
             </code>
           </div>
 

@@ -86,10 +86,17 @@ rushvault/
 
 ## 💻 Utilisation du CLI
 
-```bash
-# Lier un projet à votre dossier
-rushvault init <project-id>
+### Initialiser un projet
+Pour lier un projet distant à votre dossier local, utilisez la commande `init`. 
+Cela créera un fichier `rushvault.json` à la racine de votre dossier contenant la configuration, ce qui permet au CLI de savoir à quel projet distant ce dossier correspond.
 
+```bash
+rushvault init <project-id>
+```
+
+### Autres commandes courantes
+
+```bash
 # Sauvegarder (snapshot)
 rush-save "Ajout authentification JWT"
 # ou
