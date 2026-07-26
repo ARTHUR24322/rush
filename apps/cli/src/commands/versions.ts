@@ -128,10 +128,24 @@ export async function initCommand(projectId?: string) {
     const res = await fetch(`${apiUrl}/api/projects/${projectId}/versions`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    if (!res.ok) throw new Error('Projet introuvable');
+    if (!res.ok) {
+      spinner.fail(chalk.red('Projet introuvable'));
+      console.error(chalk.gray(`Le projet "${projectId}" n'existe pas ou ne vous appartient pas.`));
+      process.exit(1);
+    }
     const data = await res.json() as { project: { id: string; name: string } };
 
-    writeProjectConfig({ projectId: data.project.id, projectName: data.project.name });
+    try {
+      writeProjectConfig({ projectId: data.project.id, projectName: data.project.name });
+    } catch (fsErr) {
+      const msg = (fsErr as NodeJS.ErrnoException).code === 'EPERM' || (fsErr as NodeJS.ErrnoException).code === 'EACCES'
+        ? `Permission refusée : impossible d'écrire dans ce dossier.\n   Naviguez vers votre dossier projet avant de relancer : cd <mon-projet>`
+        : (fsErr as Error).message;
+      spinner.fail(chalk.red('Impossible de créer rushvault.json'));
+      console.error(chalk.gray(msg));
+      process.exit(1);
+    }
+
     spinner.succeed(chalk.gray('rushvault.json créé'));
 
     console.log('');
@@ -140,7 +154,7 @@ export async function initCommand(projectId?: string) {
     console.log(chalk.gray(`   Vous pouvez maintenant lancer : rush-save "Mon message"`));
     console.log('');
   } catch (err) {
-    spinner.fail(chalk.red('Projet introuvable'));
+    spinner.fail(chalk.red('Erreur de connexion à l\'API'));
     console.error(chalk.gray((err as Error).message));
     process.exit(1);
   }
