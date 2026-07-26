@@ -67,12 +67,30 @@ export async function loginCommand(options: { apiUrl?: string }) {
       const email = url.searchParams.get('email');
       const error = url.searchParams.get('error');
 
+      // Échappement HTML — empêche l'injection via des paramètres URL forgés
+      const escapeHtml = (str: string) =>
+        str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+           .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+
+      const isError = !!error;
+      const safeTitle = isError ? '❌ Erreur' : '✅ Connecté !';
+      const safeMessage = isError
+        ? 'Authentification échouée. Réessayez.'
+        : 'Vous pouvez fermer cet onglet et retourner au terminal.';
+      // On n'injecte jamais la valeur brute de `error` dans le HTML
+      const titleColor = isError ? '#ef4444' : '#8b5cf6';
+
       // Page HTML de succès
-      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.writeHead(200, {
+        'Content-Type': 'text/html; charset=utf-8',
+        'X-Content-Type-Options': 'nosniff',
+        'Cache-Control': 'no-store',
+      });
       res.end(`
         <!DOCTYPE html>
-        <html>
+        <html lang="fr">
           <head>
+            <meta charset="utf-8">
             <title>RushVault CLI</title>
             <style>
               body { font-family: system-ui; background: #0a0a0a; color: #fafafa; 
@@ -80,14 +98,14 @@ export async function loginCommand(options: { apiUrl?: string }) {
                      height: 100vh; margin: 0; text-align: center; }
               .card { background: #111; border: 1px solid #222; border-radius: 16px; 
                       padding: 40px; max-width: 400px; }
-              h1 { color: ${error ? '#ef4444' : '#8b5cf6'}; margin-bottom: 8px; }
+              h1 { color: ${escapeHtml(titleColor)}; margin-bottom: 8px; }
               p { color: #71717a; }
             </style>
           </head>
           <body>
             <div class="card">
-              <h1>${error ? '❌ Erreur' : '✅ Connecté !'}</h1>
-              <p>${error ? 'Authentification échouée. Réessayez.' : 'Vous pouvez fermer cet onglet et retourner au terminal.'}</p>
+              <h1>${escapeHtml(safeTitle)}</h1>
+              <p>${escapeHtml(safeMessage)}</p>
             </div>
           </body>
         </html>
