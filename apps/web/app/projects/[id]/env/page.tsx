@@ -6,7 +6,7 @@ import Link from 'next/link';
 import toast from 'react-hot-toast';
 import {
   ArrowLeft, Shield, Plus, Eye, EyeOff, Trash2,
-  Key, ChevronRight, Lock, Save, X
+  Key, ChevronRight, Lock, Save, X, FileDown
 } from 'lucide-react';
 
 interface EnvVariable {
@@ -32,6 +32,8 @@ export default function EnvVaultPage() {
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [revealedValues, setRevealedValues] = useState<Record<string, string>>({});
+  const [showImport, setShowImport] = useState(false);
+  const [importText, setImportText] = useState('');
 
   const fetchVars = async () => {
     try {
@@ -65,6 +67,54 @@ export default function EnvVaultPage() {
       void fetchVars();
     } catch {
       toast.error('Erreur lors de la sauvegarde');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleImport = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!importText.trim()) return;
+    setSaving(true);
+    
+    try {
+      const vars: {key: string, value: string}[] = [];
+      const lines = importText.split('\n');
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (trimmed && !trimmed.startsWith('#')) {
+          const match = trimmed.match(/^([^=]+)=(.*)$/);
+          if (match) {
+            let val = match[2].trim();
+            // Remove surrounding quotes if any
+            if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+              val = val.substring(1, val.length - 1);
+            }
+            vars.push({ key: match[1].trim().toUpperCase(), value: val });
+          }
+        }
+      }
+
+      if (vars.length === 0) {
+        toast.error("Aucune variable valide trouvée");
+        return;
+      }
+
+      for (const { key, value } of vars) {
+        const res = await fetch(`/api/projects/${projectId}/env`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ keyName: key, value }),
+        });
+        if (!res.ok) throw new Error(`Erreur avec ${key}`);
+      }
+
+      toast.success(`${vars.length} variables importées !`);
+      setShowImport(false);
+      setImportText('');
+      void fetchVars();
+    } catch (err: any) {
+      toast.error(err.message || "Erreur lors de l'importation");
     } finally {
       setSaving(false);
     }
@@ -115,10 +165,16 @@ export default function EnvVaultPage() {
             <p className="text-xs text-zinc-500">Chiffrement AES-256-GCM · Zero-Knowledge</p>
           </div>
         </div>
-        <button onClick={() => setShowAdd(true)} className="btn-primary gap-2">
-          <Plus className="w-4 h-4" />
-          Ajouter
-        </button>
+        <div className="flex items-center gap-3">
+          <button onClick={() => setShowImport(true)} className="btn-secondary gap-2">
+            <FileDown className="w-4 h-4" />
+            Importer .env
+          </button>
+          <button onClick={() => setShowAdd(true)} className="btn-primary gap-2">
+            <Plus className="w-4 h-4" />
+            Ajouter
+          </button>
+        </div>
       </div>
 
       {/* Security notice */}
@@ -145,10 +201,16 @@ export default function EnvVaultPage() {
           <p className="text-sm text-zinc-600 mb-4">
             Ajoutez vos secrets .env et ils seront automatiquement attachés au prochain snapshot
           </p>
-          <button onClick={() => setShowAdd(true)} className="btn-primary">
-            <Plus className="w-4 h-4" />
-            Ajouter une variable
-          </button>
+          <div className="flex items-center justify-center gap-3">
+            <button onClick={() => setShowImport(true)} className="btn-secondary">
+              <FileDown className="w-4 h-4 mr-2" />
+              Importer .env
+            </button>
+            <button onClick={() => setShowAdd(true)} className="btn-primary">
+              <Plus className="w-4 h-4 mr-2" />
+              Ajouter une variable
+            </button>
+          </div>
         </div>
       ) : (
         <div className="space-y-2">
@@ -253,6 +315,51 @@ export default function EnvVaultPage() {
                 <button type="submit" disabled={saving} className="btn-primary flex-1 gap-2">
                   <Save className="w-4 h-4" />
                   {saving ? 'Chiffrement...' : 'Chiffrer & Sauvegarder'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Import .env Modal */}
+      {showImport && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+          <div className="card w-full max-w-2xl p-6 shadow-glow animate-slide-up">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
+                <FileDown className="w-5 h-5 text-green-400" />
+                Importer un fichier .env
+              </h2>
+              <button onClick={() => setShowImport(false)} className="btn-ghost p-1.5">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <form onSubmit={handleImport} className="space-y-4">
+              <div>
+                <label className="input-label">Collez le contenu de votre fichier .env</label>
+                <textarea
+                  placeholder={"# Base de données\nDATABASE_URL=postgresql://...\n\n# API\nAPI_KEY=votre_cle"}
+                  value={importText}
+                  onChange={(e) => setImportText(e.target.value)}
+                  className="input font-mono h-64 resize-y"
+                  autoFocus
+                  required
+                />
+                <p className="text-xs text-zinc-500 mt-2">
+                  Les lignes commençant par # seront ignorées. Le format attendu est CLE=VALEUR. 
+                  Toutes les variables seront chiffrées une par une avec AES-256-GCM.
+                </p>
+              </div>
+
+              <div className="flex gap-3 pt-2">
+                <button type="button" onClick={() => setShowImport(false)} className="btn-secondary flex-1">
+                  Annuler
+                </button>
+                <button type="submit" disabled={saving} className="btn-primary flex-1 gap-2">
+                  <Save className="w-4 h-4" />
+                  {saving ? 'Importation en cours...' : 'Importer et Chiffrer'}
                 </button>
               </div>
             </form>
