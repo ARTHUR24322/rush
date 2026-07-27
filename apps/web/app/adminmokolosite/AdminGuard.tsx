@@ -16,26 +16,37 @@ export function AdminGuard({ onLogout }: { onLogout: () => Promise<void> }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Détection du bfcache : "pageshow" avec event.persisted = true
-    // signifie que la page a été restaurée depuis le cache mémoire du navigateur
-    const handlePageShow = async (e: PageTransitionEvent) => {
-      if (e.persisted) {
-        // Vérifier si la session admin est toujours valide
-        try {
-          const res = await fetch('/api/admin/check-auth', { cache: 'no-store' });
-          if (!res.ok) {
-            // Session expirée — rediriger vers le login immédiatement
-            router.replace('/adminmokolosite/login');
-          }
-        } catch {
-          router.replace('/adminmokolosite/login');
+    let mounted = true;
+
+    const checkAuth = async () => {
+      try {
+        const res = await fetch('/api/admin/check-auth', { cache: 'no-store' });
+        if (!res.ok && mounted) {
+          window.location.replace('/adminmokolosite/login');
+        }
+      } catch {
+        if (mounted) {
+          window.location.replace('/adminmokolosite/login');
         }
       }
     };
 
-    window.addEventListener('pageshow', handlePageShow);
-    return () => window.removeEventListener('pageshow', handlePageShow);
-  }, [router]);
+    // Check immediately on mount to prevent bfcache or router cache issues
+    checkAuth();
+
+    // Re-check when tab becomes visible again
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        checkAuth();
+      }
+    };
+
+    window.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      mounted = false;
+      window.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
 
   const handleLogoutClick = () => {
     setShowDialog(true);

@@ -3,6 +3,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { revalidatePath } from 'next/cache';
 
 export async function verifyMasterPassword(password: string) {
   if (password === 'ArthurAdmin243@@') {
@@ -37,5 +38,6 @@ export async function clearAdminSession() {
     // Ignorer les erreurs de déconnexion Supabase
   }
 
+  revalidatePath('/adminmokolosite', 'layout');
   redirect('/adminmokolosite/login');
 }
