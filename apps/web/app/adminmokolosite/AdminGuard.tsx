@@ -18,26 +18,39 @@ export function AdminGuard({ onLogout }: { onLogout: () => Promise<void> }) {
   useEffect(() => {
     let mounted = true;
 
-    const checkAuth = async () => {
+    const checkAuth = async (isMount = false) => {
       try {
-        const res = await fetch('/api/admin/check-auth', { cache: 'no-store' });
-        if (!res.ok && mounted) {
+        // On mount, add a small grace delay to avoid false positives during
+        // server cold starts or slow hydration
+        if (isMount) {
+          await new Promise((r) => setTimeout(r, 800));
+        }
+        if (!mounted) return;
+
+        const res = await fetch('/api/admin/check-auth', {
+          cache: 'no-store',
+          // Set a timeout so a slow network doesn't trigger a false logout
+          signal: AbortSignal.timeout(5000),
+        });
+
+        // ONLY redirect on an explicit 401 from the server.
+        // Any other error (network failure, timeout, 500…) is ignored.
+        if (res.status === 401 && mounted) {
           window.location.replace('/adminmokolosite/login');
         }
       } catch {
-        if (mounted) {
-          window.location.replace('/adminmokolosite/login');
-        }
+        // Network error / timeout → do NOT logout the admin.
+        // The server-side layout already protects every request.
       }
     };
 
-    // Check immediately on mount to prevent bfcache or router cache issues
-    checkAuth();
+    // Check on mount (with grace delay)
+    checkAuth(true);
 
-    // Re-check when tab becomes visible again
+    // Re-check when tab becomes visible again (e.g. after using back button)
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        checkAuth();
+        checkAuth(false);
       }
     };
 
