@@ -1,11 +1,102 @@
+# ============================================================
+# RushVault — .gitignore
+# ============================================================
+
+# ─── Dépendances ──────────────────────────────────────────
 node_modules/
-.next/
+.pnp
+.pnp.js
+
+# ─── Builds & outputs ─────────────────────────────────────
 dist/
+.next/
 .turbo/
-*.env
-!*.env.example
+out/
+build/
+*.tsbuildinfo
+
+# ─── Fichiers sensibles / Variables d'environnement ───────
+# !! NE JAMAIS COMMITER CES FICHIERS !!
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+.env.staging
+*.env.local
+**/.env.local
+
+# ─── Clés & certificats ───────────────────────────────────
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+*.csr
+id_rsa
+id_ed25519
+*.ppk
+
+# ─── Credentials cloud ────────────────────────────────────
+service-account*.json
+*-credentials.json
+credentials.json
+gcloud-credentials.json
+firebase-adminsdk*.json
+google-services.json
+GoogleService-Info.plist
+
+# ─── Tokens & secrets ─────────────────────────────────────
+*.secret
+*.secrets
+.secrets/
+secrets/
+*_token.txt
+auth-token.txt
+
+# ─── Supabase local ───────────────────────────────────────
+supabase/.temp/
+supabase/config.toml.local
+
+# ─── Vercel ───────────────────────────────────────────────
+.vercel/
+
+# ─── Logs ─────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-debug.log*
+
+# ─── Système d'exploitation ───────────────────────────────
 .DS_Store
 Thumbs.db
-*.log
+desktop.ini
+ehthumbs.db
+
+# ─── Editeurs & IDEs ──────────────────────────────────────
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+
+# ─── Archives générées par RushVault ──────────────────────
 rushvault-*.zip
-.env.local
+
+# ─── Fichiers temporaires ─────────────────────────────────
+*.tmp
+*.temp
+.cache/
+
+# ─── Exemple (autorisé explicitement) ─────────────────────
+!*.env.example
+!.env.example
