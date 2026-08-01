@@ -263,15 +263,15 @@ export default function DashboardPage() {
 
         <div className="grid md:grid-cols-3 gap-4">
           <div className="p-4 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-blue-500/30 transition-colors">
-            <h3 className="text-blue-400 text-sm font-bold mb-2">📁 Projets persos & TPs</h3>
+            <h3 className="text-blue-400 text-sm font-bold mb-2">Projets persos & TPs</h3>
             <p className="text-xs text-zinc-400">Sauvegardez vos projets d'école ou side-projects à chaque étape importante pour ne jamais rien perdre et pouvoir faire un "rollback" si besoin.</p>
           </div>
           <div className="p-4 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-blue-500/30 transition-colors">
-            <h3 className="text-blue-400 text-sm font-bold mb-2">🔐 Protection des secrets</h3>
+            <h3 className="text-blue-400 text-sm font-bold mb-2">Protection des secrets</h3>
             <p className="text-xs text-zinc-400">Fini les clés d'API perdues ! Utilisez <code className="text-blue-300">rushvault env push</code> pour stocker vos fichiers .env en toute sécurité dans le coffre-fort cloud.</p>
           </div>
           <div className="p-4 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-blue-500/30 transition-colors">
-            <h3 className="text-blue-400 text-sm font-bold mb-2">🚀 Expérimentations</h3>
+            <h3 className="text-blue-400 text-sm font-bold mb-2">Expérimentations</h3>
             <p className="text-xs text-zinc-400">Prenez un snapshot avec <code className="text-blue-300">rush-save</code> juste avant de faire une refonte majeure de votre code ou de tester une nouvelle bibliothèque.</p>
           </div>
         </div>
