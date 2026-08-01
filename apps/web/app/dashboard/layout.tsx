@@ -33,10 +33,27 @@ export default async function AppLayout({
             </nav>
           </div>
 
-          <div className="flex items-center gap-3">
-            <span className="text-xs text-zinc-500 hidden sm:block truncate max-w-32">
-              {user.email}
-            </span>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2.5 hidden sm:flex">
+              {user.user_metadata?.avatar_url ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img 
+                  src={user.user_metadata.avatar_url} 
+                  alt="Profil" 
+                  className="w-7 h-7 rounded-full border border-border/50 shadow-sm"
+                />
+              ) : (
+                <div className="w-7 h-7 rounded-full bg-zinc-800 border border-border/50 flex items-center justify-center shadow-sm">
+                  <span className="text-xs text-zinc-400 font-medium uppercase">
+                    {user.email?.[0] || '?'}
+                  </span>
+                </div>
+              )}
+              <span className="text-xs text-zinc-400 font-medium truncate max-w-40">
+                {user.email}
+              </span>
+            </div>
+            <div className="w-px h-4 bg-border/50 hidden sm:block"></div>
             <LogoutButton />
           </div>
         </div>
