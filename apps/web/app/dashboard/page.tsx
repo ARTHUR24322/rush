@@ -249,6 +249,34 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      {/* Ideas Guide */}
+      <div className="mt-8 p-6 rounded-2xl border border-blue-500/20 bg-zinc-900/50 backdrop-blur-sm">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center shadow-lg shadow-blue-500/10">
+            <Zap className="w-5 h-5 text-blue-400" />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-zinc-100">Besoin d'idées ?</h2>
+            <p className="text-sm text-zinc-400">Voici comment vous pouvez utiliser RushVault au quotidien</p>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-4">
+          <div className="p-4 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-blue-500/30 transition-colors">
+            <h3 className="text-blue-400 text-sm font-bold mb-2">📁 Projets persos & TPs</h3>
+            <p className="text-xs text-zinc-400">Sauvegardez vos projets d'école ou side-projects à chaque étape importante pour ne jamais rien perdre et pouvoir faire un "rollback" si besoin.</p>
+          </div>
+          <div className="p-4 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-blue-500/30 transition-colors">
+            <h3 className="text-blue-400 text-sm font-bold mb-2">🔐 Protection des secrets</h3>
+            <p className="text-xs text-zinc-400">Fini les clés d'API perdues ! Utilisez <code className="text-blue-300">rushvault env push</code> pour stocker vos fichiers .env en toute sécurité dans le coffre-fort cloud.</p>
+          </div>
+          <div className="p-4 rounded-xl bg-zinc-950/50 border border-zinc-800/80 hover:border-blue-500/30 transition-colors">
+            <h3 className="text-blue-400 text-sm font-bold mb-2">🚀 Expérimentations</h3>
+            <p className="text-xs text-zinc-400">Prenez un snapshot avec <code className="text-blue-300">rush-save</code> juste avant de faire une refonte majeure de votre code ou de tester une nouvelle bibliothèque.</p>
+          </div>
+        </div>
+      </div>
+
       {/* Create Project Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
