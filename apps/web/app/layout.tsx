@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Toaster } from 'react-hot-toast';
 import MatrixSplash from '@/components/MatrixSplash';
+import { ThemeProvider } from '@/components/ThemeProvider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -26,10 +27,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className="dark">
+    <html lang="fr" suppressHydrationWarning>
       <body className="font-sans">
-        <MatrixSplash />
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          disableTransitionOnChange
+        >
+          <MatrixSplash />
+          {children}
         <Toaster
           position="bottom-right"
           toastOptions={{
@@ -48,6 +54,7 @@ export default function RootLayout({
             },
           }}
         />
+        </ThemeProvider>
       </body>
     </html>
   );

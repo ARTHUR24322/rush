@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { Vault, LogOut } from 'lucide-react';
 import LogoutButton from '@/components/LogoutButton';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 export default async function AppLayout({
   children,
@@ -17,7 +18,7 @@ export default async function AppLayout({
   return (
     <div className="min-h-screen flex flex-col">
       {/* Top navbar */}
-      <header className="sticky top-0 z-50 border-b border-border/50 bg-black/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-border/50 bg-white/80 dark:bg-black/80 backdrop-blur-xl">
         <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <Link href="/dashboard" className="flex items-center gap-2">
@@ -54,6 +55,7 @@ export default async function AppLayout({
               </span>
             </div>
             <div className="w-px h-4 bg-border/50 hidden sm:block"></div>
+            <ThemeToggle />
             <LogoutButton />
           </div>
         </div>

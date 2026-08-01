@@ -17,6 +17,7 @@
     "busboy": "*",
     "lucide-react": "*",
     "next": "16.2.10",
+    "next-themes": "^0.4.6",
     "react": "*",
     "react-dom": "*",
     "react-hot-toast": "*",
