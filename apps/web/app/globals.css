@@ -33,40 +33,40 @@
 
 @layer base {
   :root {
-    --background: #ffffff;
+    --background: #e4e4e7;
     --foreground: #18181b;
-    --surface: #ffffff;
-    --surface-raised: #f4f4f5;
-    --surface-overlay: #ffffff;
-    --border: #e4e4e7;
-    --border-subtle: #f4f4f5;
-    --border-strong: #d4d4d8;
+    --surface: #d4d4d8;
+    --surface-raised: #e4e4e7;
+    --surface-overlay: #d4d4d8;
+    --border: #a1a1aa;
+    --border-subtle: #d4d4d8;
+    --border-strong: #71717a;
     
-    --card-bg: #ffffff;
-    --card-border: #e4e4e7;
-    --card-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05);
+    --card-bg: #e4e4e7;
+    --card-border: #a1a1aa;
+    --card-shadow: 0 1px 3px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.07);
     
-    --btn-secondary-bg: #f4f4f5;
+    --btn-secondary-bg: #d4d4d8;
     --btn-secondary-text: #18181b;
-    --btn-secondary-border: #e4e4e7;
+    --btn-secondary-border: #a1a1aa;
     
-    --btn-ghost-text: #71717a;
-    --btn-ghost-hover-bg: #f4f4f5;
+    --btn-ghost-text: #52525b;
+    --btn-ghost-hover-bg: #d4d4d8;
     --btn-ghost-hover-text: #18181b;
     
-    --input-bg: #ffffff;
-    --input-border: #e4e4e7;
+    --input-bg: #d4d4d8;
+    --input-border: #a1a1aa;
     --input-text: #18181b;
     
-    --badge-bg: rgba(24, 24, 27, 0.05);
-    --badge-text: #52525b;
-    --badge-border: rgba(24, 24, 27, 0.1);
+    --badge-bg: rgba(24, 24, 27, 0.1);
+    --badge-text: #3f3f46;
+    --badge-border: rgba(24, 24, 27, 0.2);
     
-    --nav-link-text: #71717a;
+    --nav-link-text: #52525b;
     --nav-link-hover-text: #18181b;
-    --nav-link-hover-bg: #f4f4f5;
+    --nav-link-hover-bg: #d4d4d8;
     
-    --skeleton-bg: linear-gradient(90deg, #f4f4f5 25%, #e4e4e7 50%, #f4f4f5 75%);
+    --skeleton-bg: linear-gradient(90deg, #d4d4d8 25%, #a1a1aa 50%, #d4d4d8 75%);
   }
 
   .dark {

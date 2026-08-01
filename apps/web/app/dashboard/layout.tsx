@@ -18,11 +18,11 @@ export default async function AppLayout({
   return (
     <div className="min-h-screen flex flex-col">
       {/* Top navbar */}
-      <header className="sticky top-0 z-50 border-b border-border/50 bg-white/80 dark:bg-black/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-border/50 bg-zinc-300/80 dark:bg-black/80 backdrop-blur-xl">
         <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <Link href="/dashboard" className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-rush-gradient flex items-center justify-center shadow-glow">
+              <div className="w-7 h-7 rounded-lg bg-red-600 dark:bg-rush-gradient flex items-center justify-center dark:shadow-glow shadow-lg shadow-red-500/30">
                 <Vault className="w-3.5 h-3.5 text-white" />
               </div>
               <span className="font-bold gradient-text text-sm">RushVault</span>
