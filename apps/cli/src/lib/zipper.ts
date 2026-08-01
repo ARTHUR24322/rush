@@ -17,6 +17,44 @@ const DEFAULT_IGNORE = [
 ];
 
 /**
+ * Parse .gitignore and .rushvaultignore files and returns an array of glob patterns.
+ */
+function parseIgnoreFiles(sourceDir: string): string[] {
+  const patterns: string[] = [];
+  const filesToParse = ['.gitignore', '.rushvaultignore'];
+
+  for (const fileName of filesToParse) {
+    const filePath = path.join(sourceDir, fileName);
+    if (fs.existsSync(filePath)) {
+      const content = fs.readFileSync(filePath, 'utf-8');
+      const lines = content.split('\n');
+      
+      for (let line of lines) {
+        line = line.trim();
+        // Ignore empty lines and comments
+        if (!line || line.startsWith('#')) continue;
+        
+        // Remove leading slash as glob matching starts from cwd
+        if (line.startsWith('/')) {
+          line = line.substring(1);
+        }
+        
+        if (line.endsWith('/')) {
+          const base = line.substring(0, line.length - 1);
+          patterns.push(base);
+          patterns.push(`${base}/**`);
+        } else {
+          patterns.push(line);
+          patterns.push(`${line}/**`);
+        }
+      }
+    }
+  }
+
+  return [...new Set(patterns)]; // Remove duplicates
+}
+
+/**
  * Compresse le dossier courant en ZIP (en excluant les dossiers ignorés et .env).
  * Retourne le chemin vers le fichier ZIP temporaire et le contenu du .env si présent.
  */
@@ -26,7 +64,8 @@ export async function zipCurrentDirectory(
   ignorePatterns: string[] = [],
 ): Promise<{ zipPath: string; envContent: string | null }> {
 
-  const allIgnore = [...DEFAULT_IGNORE, ...ignorePatterns];
+  const dynamicIgnores = parseIgnoreFiles(sourceDir);
+  const allIgnore = [...DEFAULT_IGNORE, ...ignorePatterns, ...dynamicIgnores];
 
   // Lire .env si présent (avant la compression)
   let envContent: string | null = null;

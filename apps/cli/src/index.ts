@@ -97,12 +97,32 @@ if (isSaveAlias) {
       await rollbackCommand(version);
     });
 
+  const envCmd = program
+    .command('env')
+    .description('Gérer la synchronisation des variables d\'environnement');
+
+  envCmd
+    .command('push')
+    .description('Envoie le fichier .env local vers le coffre-fort cloud (remplace les clés existantes)')
+    .action(async () => {
+      const { envPushCommand } = await import('./commands/env.js');
+      await envPushCommand();
+    });
+
+  envCmd
+    .command('pull')
+    .description('Télécharge les variables .env depuis le coffre-fort cloud et les sauvegarde localement')
+    .action(async () => {
+      const { envPullCommand } = await import('./commands/env.js');
+      await envPullCommand();
+    });
+
   // ─── Commande par défaut : save ───────────────────────────────────────────
 
   // Si on lance "rush 'mon message'" directement (sans sous-commande), on save
   if (
     process.argv.length >= 3 &&
-    !['save', 'login', 'logout', 'whoami', 'init', 'versions', 'ls', 'rollback', '--help', '-h', '--version', '-v'].includes(process.argv[2])
+    !['save', 'login', 'logout', 'whoami', 'init', 'versions', 'ls', 'rollback', 'env', '--help', '-h', '--version', '-v'].includes(process.argv[2])
   ) {
     const message = process.argv.slice(2).join(' ');
     saveCommand(message).catch((err: Error) => {

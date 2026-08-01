@@ -18,7 +18,7 @@ export async function setAdminSession() {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict', // 'strict' = protection CSRF maximale (aucune requête cross-site)
-    path: '/adminmokolosite',
+    path: '/',
     maxAge: 60 * 60 * 24, // 24 hours
   });
   
