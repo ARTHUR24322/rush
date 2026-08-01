@@ -22,8 +22,8 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       // Polices
       "font-src 'self' https://fonts.gstatic.com",
-      // Images : soi-même + data URIs + GitHub avatars + Supabase Storage
-      "img-src 'self' data: blob: https://*.supabase.co https://avatars.githubusercontent.com",
+      // Images : soi-même + data URIs + GitHub avatars + Google avatars + Supabase Storage
+      "img-src 'self' data: blob: https://*.supabase.co https://avatars.githubusercontent.com https://lh3.googleusercontent.com https://lh4.googleusercontent.com https://lh5.googleusercontent.com https://lh6.googleusercontent.com",
       // Connexions API : soi-même + Supabase
       `connect-src 'self' https://*.supabase.co wss://*.supabase.co ${process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''}`,
       // Frames : aucune autorisée
